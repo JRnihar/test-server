@@ -23,7 +23,8 @@ connectToServer((err) => {
 });
 
 //Routes
-app.use("/api/v1/abc", dataRoutes);
+// app.use("/api/v1/abc", dataRoutes);
+app.use("/api/v1/list", dataRoutes);
 
 app.get("/", (req, res) => {
     

@@ -4,11 +4,20 @@ const router = express.Router();
 
 router
     .route("/")
-    .get(dataControllers.getAllData)
-    .post(dataControllers.saveAData);
+    // .get(dataControllers.getAllList)
+    .get(dataControllers.getAllList)
+    // .post(dataControllers.saveAData);
 
 
-router.route("/abc").post(dataControllers.saveAData).get(dataControllers.getAllData);
+// router.route("/abc")
+// .post(dataControllers.saveAData)
+// .get(dataControllers.getAllList);
+router
+    .route("/:id")
+    .get(dataControllers.getListDetail)
+// router
+//     .route("/login")
+//     .post(dataControllers.getListDetail)
 
 
 
