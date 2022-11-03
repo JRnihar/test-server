@@ -2,20 +2,38 @@ const { ObjectId } = require("mongodb");
 const { getDb } = require("../utils/db.connected");
 
 //getAllData
-// module.exports.getAllList = async (req, res, next) => {
-//     try {
-//         const db = getDb();
-//         const tool = await db
-//             .collection("test")
-//             .find({})
-//             .toArray();
+module.exports.getSchemaList = async (req, res, next) => {
+    try {
+        const db = getDb();
+        const email = req.params;
+        const tool = await db
+            .collection("test")
+            .find( email )
+            .toArray();
 
-//         res.status(200).json({ success: true, data: tool });
-//         res.send(data);
-//     } catch (error) {
-//         next(error);
-//     }
-// };
+        res.status(200).json({ success: true, data: tool });
+        res.send(data);
+    } catch (error) {
+        next(error);
+    }
+};
+module.exports.saveATool = async (req, res, next) => {
+    try {
+        const db = getDb();
+        const tool = req.body;
+
+        const result = await db.collection("test").insertOne(tool);
+        console.log(result);
+
+        if (!result.insertedId) {
+            return res.status(400).send({ status: false, error: "Something went wrong!" });
+        }
+
+        res.send({ success: true, message: `Tool added with id: ${result.insertedId}` });
+    } catch (error) {
+        next(error);
+    }
+};
 //getAllData
 
 module.exports.getAllList = async (req, res, next) => {
@@ -56,19 +74,3 @@ module.exports.getListDetail = async (req, res, next) => {
 };
 
 //SaveData
-module.exports.saveAData = async (req, res, next) => {
-    try {
-        const db = getDb();
-        const tool = req.body;
-        const result = await db.collection("test").insertOne(tool);
-        console.log(result);
-
-        if (!result.insertedId) {
-            return res.status(400).send({ status: false, error: "Something went wrong!" });
-        }
-
-        res.send({ success: true, message: `Tool added with id: ${result.insertedId}` });
-    } catch (error) {
-        next(error);
-    }
-};

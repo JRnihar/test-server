@@ -4,6 +4,7 @@ const port = process.env.PORT || 5000;
 const app = express();
 require("dotenv").config()
 const dataRoutes = require("./routes/v1/data.routes");
+const listRouts = require("./routes/v1/list.Router");
 const errorHandler = require("./middleware/errorHandler");
 const { connectToServer } = require("./utils/db.connected");
 
@@ -25,6 +26,7 @@ connectToServer((err) => {
 //Routes
 // app.use("/api/v1/abc", dataRoutes);
 app.use("/api/v1/list", dataRoutes);
+app.use("/api/v1/test", listRouts);
 
 app.get("/", (req, res) => {
     
