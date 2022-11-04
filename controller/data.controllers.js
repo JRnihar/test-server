@@ -1,7 +1,8 @@
 const { ObjectId } = require("mongodb");
 const { getDb } = require("../utils/db.connected");
 
-//getAllData
+////cutomer card controller/////
+//getData by email
 module.exports.getSchemaList = async (req, res, next) => {
     try {
         const db = getDb();
@@ -17,6 +18,22 @@ module.exports.getSchemaList = async (req, res, next) => {
         next(error);
     }
 };
+//getAllCusomter data
+module.exports.getAllSchemaList = async (req, res, next) => {
+    try {
+        const db = getDb();
+        const tool = await db
+            .collection("test")
+            .find( {} )
+            .toArray();
+
+        res.status(200).json({ success: true, data: tool });
+        res.send(data);
+    } catch (error) {
+        next(error);
+    }
+};
+//saveAllCutomerData
 module.exports.saveATool = async (req, res, next) => {
     try {
         const db = getDb();
@@ -34,8 +51,53 @@ module.exports.saveATool = async (req, res, next) => {
         next(error);
     }
 };
-//getAllData
+//Delete Data
+module.exports.deleteList = async (req, res, next) => {
+    try {
+        const db = getDb();
+        const { id } = req.params;
+        console.log(id);
 
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, error: "Not a valid data id." });
+        }
+
+        const list = await db.collection("test").deleteOne({ _id: ObjectId(id) });
+
+        if (!list.deletedCount) {
+            return res.status(400).json({ success: false, error: "Couldn't delete the data" });
+        }
+
+        res.status(200).json({ success: true, message: "Successfully deleted the data" });
+    } catch (error) {
+        next(error);
+    }
+};
+//Get Data By ID
+module.exports.getsingleListDetail = async (req, res, next) => {
+    try {
+        const db = getDb();
+        const { id } = req.params;
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, error: "Not a valid tool id." });
+        }
+
+        const lists = await db.collection("test").findOne({ _id: ObjectId(id) });
+
+        if (!lists) {
+            return res.status(400).json({ success: false, error: "Couldn't find a tool with this id" });
+        }
+
+        res.status(200).json({ success: true, data: lists });
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+/////////////////////////////All Defult data/////////////////////////////
+//getDefultData
 module.exports.getAllList = async (req, res, next) => {
     try {
         const db = getDb();
@@ -50,7 +112,7 @@ module.exports.getAllList = async (req, res, next) => {
         next(error);
     }
 };
-//get A Single data
+//get A Defult data by ID
 module.exports.getListDetail = async (req, res, next) => {
     try {
         const db = getDb();
@@ -73,4 +135,3 @@ module.exports.getListDetail = async (req, res, next) => {
     }
 };
 
-//SaveData

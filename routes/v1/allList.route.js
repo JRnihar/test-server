@@ -4,9 +4,12 @@ const router = express.Router();
 
 router
     .route("/")
-    .get(dataControllers.getAllList)
+    .get(dataControllers.getAllSchemaList)
 router
     .route("/:id")
-    .get(dataControllers.getListDetail)
-    
+    .get(dataControllers.getsingleListDetail)
+    .delete(dataControllers.deleteList);
+
+
+
 module.exports = router;

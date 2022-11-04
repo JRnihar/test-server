@@ -5,6 +5,7 @@ const app = express();
 require("dotenv").config()
 const dataRoutes = require("./routes/v1/data.routes");
 const listRouts = require("./routes/v1/list.Router");
+const allListRouts = require("./routes/v1/allList.route");
 const errorHandler = require("./middleware/errorHandler");
 const { connectToServer } = require("./utils/db.connected");
 
@@ -24,9 +25,9 @@ connectToServer((err) => {
 });
 
 //Routes
-// app.use("/api/v1/abc", dataRoutes);
 app.use("/api/v1/list", dataRoutes);
 app.use("/api/v1/test", listRouts);
+app.use("/api/v1/allList", allListRouts);
 
 app.get("/", (req, res) => {
     
