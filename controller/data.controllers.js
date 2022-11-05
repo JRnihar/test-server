@@ -94,6 +94,26 @@ module.exports.getsingleListDetail = async (req, res, next) => {
         next(error);
     }
 };
+module.exports.updateData = async (req, res, next) => {
+    try {
+        const db = getDb();
+        const { id } = req.params;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({ success: false, error: "Not a valid data id." });
+        }
+
+        const data = await db.collection("test").updateOne({ _id: ObjectId(id) }, { $set: req.body });
+
+        if (!data.modifiedCount) {
+            return res.status(400).json({ success: false, error: "Couldn't data the tool" });
+        }
+
+        res.status(200).json({ success: true, message: "Successfully updated the data" });
+    } catch (error) {
+        next(error);
+    }
+};
 
 
 /////////////////////////////All Defult data/////////////////////////////

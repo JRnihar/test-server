@@ -8,8 +8,8 @@ router
 router
     .route("/:id")
     .get(dataControllers.getsingleListDetail)
-    .delete(dataControllers.deleteList);
-
+    .delete(dataControllers.deleteList)
+    .patch(dataControllers.updateData)
 
 
 module.exports = router;
